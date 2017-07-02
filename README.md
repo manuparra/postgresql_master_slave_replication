@@ -214,6 +214,8 @@ Save the file and restart the services:
 service postgresql restart
 ```
 
+# Testing the environment
+
 
 
 
