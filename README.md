@@ -31,13 +31,13 @@ Set the hostname in `master-server`:
 
 ```
 hostnamectl set-hostname master-server
-````
+```
 
 and in `slave-server`:
 
 ```
 hostnamectl set-hostname slave-server
-````
+```
 
 Change host file in each server and add in `/etc/hosts/`:
 
@@ -74,7 +74,7 @@ From the root privileges, switch to the PostgreSQL user with the su command:
 
 ```
 su - postgres
-````
+```
 
 Access the Postgres shell with the psql command and type in this PostgreSQL query to create the new user/role:
 
@@ -174,7 +174,7 @@ On the SLAVE SERVER, stop PostgreSQL Service:
 
 ```
 service postgresql stop
-````
+```
 
 Now login with postgres user:
 
