@@ -1,8 +1,8 @@
 # Environment
 
 - Two server:
- - Master-Server: IP 192.168.10.130
- - Slave-Server:  IP 192.168.10.131
+  - Master-Server: IP 192.168.10.130
+  - Slave-Server:  IP 192.168.10.131
 - Ubuntu 16.04
 - PostgreSQL 9.4
 
