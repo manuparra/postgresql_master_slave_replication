@@ -1,3 +1,11 @@
+# Environment
+
+- Two server:
+ - Master-Server: IP 192.168.10.130
+ - Slave-Server:  IP 192.168.10.131
+- Ubuntu 16.04
+- PostgreSQL 9.4
+
 # Setting-up Master and Slave
 
 ```
@@ -58,7 +66,7 @@ psql
 \conninfo
 ```
 
-#Configuration of the Master-Server
+# Configuration of the Master-Server
 
 In this step, we will configure the 'master server' with IP address '192.168.10.130'. 
 We will create a new user/role with special permission to perform the replication, then we edit the PostgreSQL configuration file to enable the hot standby replication mode.
@@ -130,7 +138,7 @@ Save and exit, and restart postgresql with:
 service posrgresql restart
 ```
 
-#Configuration of the Slave-Server
+# Configuration of the Slave-Server
 
 Change to postgres user and edit configuration file:
 
