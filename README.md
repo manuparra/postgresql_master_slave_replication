@@ -1,4 +1,5 @@
-#Setting-up Master and Slave:
+# Setting-up Master and Slave
+
 ```
 sudo apt-get -y update
 sudo apt-get -y upgrade
