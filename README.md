@@ -1,4 +1,4 @@
-## Master and Slave:
+#Setting-up Master and Slave:
 ```
 sudo apt-get -y update
 sudo apt-get -y upgrade
@@ -91,11 +91,120 @@ Change the following lines (uncomment if needed):
 ````
 listen_addresses = 'localhost,192.168.10.130'
 ...
+wal_level = hot_standby
+...
+checkpoint_segments = 8
+...
+archive_mode = on
+archive_command = 'cp -i %p /var/lib/postgresql/9.4/main/archive/%f'
+...
+max_wal_senders = 3
+wal_keep_segments = 8
+...
 ````
 
+Save and exit. 
 
+Change to postgres user:
 
+```
+su - postgres
+```
+And create the next folder:
 
-Then:
-
+´´´
 mkdir -p /var/lib/postgresql/9.4/main/archive/
+´´´
+
+Edit `/etc/postgresql/9.4/main/pg_hba.conf` and add to the end, your Slave Servers:
+
+```
+host    replication     replica      192.168.10.131/24            md5
+```
+Remember, your slave server is `192.168.10.131`.
+
+Save and exit, and restart postgresql with:
+
+```
+service posrgresql restart
+```
+
+#Configuration of the Slave-Server
+
+Change to postgres user and edit configuration file:
+
+```
+su - postgres
+vi /etc/postgresql/9.4/main/postgresql.conf
+```
+
+Change the following lines (or uncomment):
+
+```
+listen_addresses = 'localhost,192.168.1.248'
+...
+wal_level = hot_standby
+...
+checkpoint_segments = 8
+...
+max_wal_senders = 3
+...
+wal_keep_segments = 8
+...
+hot_standby = on
+```
+
+Save and exit.
+
+#Sycn data from the master to the slave
+
+In this step, we will move the PostgreSQL data directory '/var/lib/postgresql/9.4/main' to a backup folder and then replace it with the latest master data with 
+the command `pg_basebackup` command.
+
+On the SLAVE SERVER, stop PostgreSQL Service:
+
+```
+service postgresql stop
+````
+
+Now login with postgres user:
+
+```
+su - postgres
+```
+and execute:
+
+```
+mv 9.4/main 9.4/main_original
+```
+
+Run the following command to copy data from the master to the slave:
+
+```
+pg_basebackup -h 192.168.10.130 -D /var/lib/postgresql/9.4/main -U replica -v -P
+```
+The IP 192.168.10.130 of your Master-Server. This command will ask your password (for replication).
+
+Edit the following file:
+
+```
+vi /var/lib/postgresql/9.4/main/recovery.conf
+```
+
+and paste the following:
+
+```
+standby_mode = 'on'
+primary_conninfo = 'host=192.168.1.230 port=5432 user=replica password=replicauser@'
+restore_command = 'cp //var/lib/postgresql/9.4/main/archive/%f %p'
+trigger_file = '/tmp/postgresql.trigger.5432'
+```
+Save the file and restart the services:
+
+```
+service postgresql restart
+```
+
+
+
+
