@@ -110,7 +110,7 @@ archive_command = 'cp -i %p /var/lib/postgresql/9.4/main/archive/%f'
 max_wal_senders = 3
 wal_keep_segments = 8
 ...
-````
+```
 
 Save and exit. 
 
