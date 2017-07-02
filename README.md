@@ -97,7 +97,7 @@ vi postgresql.conf
 
 Change the following lines (uncomment if needed):
 
-````
+```
 listen_addresses = 'localhost,192.168.10.130'
 ...
 wal_level = hot_standby
